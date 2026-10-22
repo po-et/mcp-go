@@ -582,10 +582,11 @@ func (c *Stdio) readResponses(ready chan struct{}) {
 					continue
 				}
 				c.notifyMu.RLock()
-				if c.onNotification != nil {
-					c.onNotification(notification)
-				}
+				handler := c.onNotification
 				c.notifyMu.RUnlock()
+				if handler != nil {
+					handler(notification)
+				}
 				continue
 			}
 

@@ -489,10 +489,11 @@ func (c *SSE) handleSSEEvent(event, data string, endpointChan chan struct{}, end
 				return
 			}
 			c.notifyMu.RLock()
-			if c.onNotification != nil {
-				c.onNotification(notification)
-			}
+			handler := c.onNotification
 			c.notifyMu.RUnlock()
+			if handler != nil {
+				handler(notification)
+			}
 			return
 		}
 

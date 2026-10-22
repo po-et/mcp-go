@@ -963,10 +963,11 @@ func (c *StreamableHTTP) handleSSEResponse(ctx context.Context, reader io.ReadCl
 					return
 				}
 				c.notifyMu.RLock()
-				if c.notificationHandler != nil {
-					c.notificationHandler(notification)
-				}
+				handler := c.notificationHandler
 				c.notifyMu.RUnlock()
+				if handler != nil {
+					handler(notification)
+				}
 				return
 			}
 
